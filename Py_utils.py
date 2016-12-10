@@ -6,6 +6,6 @@ def ts_to_time(ts):
 # Rounding the device timestamp to the nearest 'T' minute interval
 T_minutes=30
 offset_T=T_minutes*60*1e9  # T minutes in nanoseconds 
-df_beacon['time_rnd1']=pd.to_datetime(((df_beacon.timestamp.apply(ts_to_time).astype(np.int64) // offset_T + 1 ) * offset_T))
+df_test['time_rnd']=pd.to_datetime(((df_test.timestamp.apply(ts_to_time).astype(np.int64) // offset_T + 1 ) * offset_T))
 
 
