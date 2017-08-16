@@ -176,3 +176,33 @@ _,_=plot_spectrum(x_lf,fs)
 x_hf=highpass_filter_butterworth(x_in, f_c, fs, order=5)
 _,_=plot_spectrum(x_hf,fs)
 
+################
+def interp_filt(df_out,f_s,filt,f_c,order=3):
+    
+    ts_max=max(df_out.time)
+    time_uniform=np.linspace(0,ts_max,np.ceil(f_s*ts_max))
+    df_out_if=pd.DataFrame(data=time_uniform,columns=['time'])
+    axes=['x','y','z']
+    for axis in axes:
+        a_int=extrapolate_1d(df_out.time,df_out[axis],time_uniform,kind='linear')
+        if(filt=='low'):
+            df_out_if[axis]= lowpass_filter_butterworth(a_int,f_c[0], f_s, order=3)
+        elif (filt=='band'):
+            df_out_if[axis]= bandpass_filter_butterworth(a_int,f_c[0],f_c[1], f_s, order=3)
+    df_out_if['mag']=np.sqrt(df_out_if.x**2+df_out_if.y**2+df_out_if.z**2)
+    return df_out_if
+def plt_specgram(t,x,NFFT = 1024,n_overlap=900):
+
+    dt=t[1]-t[0] # the length of the windowing segments
+    f_s = int(1.0/dt)  # the sampling frequency
+
+    # Pxx is the segments x freqs array of instantaneous power, freqs is
+    # the frequency vector, bins are the centers of the time bins in which
+    # the power is computed, and im is the matplotlib.image.AxesImage
+    # instance
+    plt.figure(figsize=(30,8))
+    ax1 = plt.subplot(211)
+    plt.plot(t, x)
+    plt.subplot(212, sharex=ax1)
+    Pxx, freqs, bins, im = plt.specgram(x, NFFT=NFFT, Fs=f_s, noverlap=n_overlap)
+    plt.show()
