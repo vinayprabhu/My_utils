@@ -7,7 +7,12 @@ def ts_to_time(ts):
 T_minutes=30
 offset_T=T_minutes*60*1e9  # T minutes in nanoseconds 
 df_test['time_rnd']=pd.to_datetime(((df_test.timestamp.apply(ts_to_time).astype(np.int64) // offset_T + 1 ) * offset_T))
+###################
 
+# Extract str content between two special characters
+import re
+re.findall(r'_(.*?)_',str)
+#####################
 
 # Helper functions for computing the top-K accuracy for keras
 def topKlabels(p_Mat,k=2):
