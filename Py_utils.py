@@ -222,6 +222,7 @@ def plt_spectra_irreg(t,y):
     plt.title('Lomb-Scargle')
     plt.subplot(212)
     mag_fft,f_fft=plot_spectrum(y,f_s)
+    plt.title('FFT')
     plt.tight_layout()
     
     return (f_ls[np.argmax(pow_ls)],f_fft[np.argmax(mag_fft)])
