@@ -211,3 +211,17 @@ def plt_specgram(t,x,NFFT = 1024,n_overlap=900):
     plt.subplot(212, sharex=ax1)
     Pxx, freqs, bins, im = plt.specgram(x, NFFT=NFFT, Fs=f_s, noverlap=n_overlap)
     plt.show()
+   ################################################
+from astropy.stats import LombScargle
+def plt_spectra_irreg(t,y):
+    f_s=len(y)/(t.max()-t.min())
+    f_ls, pow_ls = LombScargle(t, y).autopower(minimum_frequency=0.01,
+                                                        maximum_frequency=f_s/2)
+    plt.subplot(211)
+    plt.plot(f_ls,pow_ls)
+    plt.title('Lomb-Scargle')
+    plt.subplot(212)
+    mag_fft,f_fft=plot_spectrum(y,f_s)
+    plt.tight_layout()
+    
+    return (f_ls[np.argmax(pow_ls)],f_fft[np.argmax(mag_fft)])
