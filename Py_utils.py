@@ -1,3 +1,19 @@
+def plt_cdf(array_in,xlabel='Support of input variable',ylabel='CDF(x)'):
+    """
+    Plot cdf of the RV whose samples are in input array
+    """
+    support_span=np.arange(array_in.min()-1,array_in.max())
+    cdf_array=np.zeros(len(support_span))
+    for i,x in enumerate(support_span):
+        cdf_array[i]= (array_in<=x).sum()/n
+    plt.plot(support_span,cdf_array)
+    plt.xlim([support_span.min(),support_span.max()])
+    plt.ylim([0,1])
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    return support_span,cdf_array
+   
+
 def ts_to_time(ts):
     # Convert device timestamps to datetime objects
     utc_dt=datetime.datetime(year=2001,month=1,day=1)+datetime.timedelta(microseconds=np.float(ts))
