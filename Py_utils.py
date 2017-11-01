@@ -1,17 +1,21 @@
+########################################
+
 def plt_cdf(array_in,xlabel='Support of input variable',ylabel='CDF(x)'):
     """
     Plot cdf of the RV whose samples are in input array
     """
-    support_span=np.arange(array_in.min()-1,array_in.max())
+    support_span=np.linspace(array_in.min()-1,array_in.max()+1,100)
+    n=len(array_in)
     cdf_array=np.zeros(len(support_span))
     for i,x in enumerate(support_span):
-        cdf_array[i]= (array_in<=x).sum()/n
+        cdf_array[i]= (array_in<=x).sum()/np.float(n)
     plt.plot(support_span,cdf_array)
     plt.xlim([support_span.min(),support_span.max()])
     plt.ylim([0,1])
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     return support_span,cdf_array
+###########################################
    
 
 def ts_to_time(ts):
